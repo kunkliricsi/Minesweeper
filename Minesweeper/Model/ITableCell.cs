@@ -10,7 +10,9 @@ namespace Minesweeper.Model
     public interface ITableCell
     {
         bool IsFlagged { get; set; }
+        List<ITableCell> Neighbors { get; set; }
 
         void Reveal();
+        void Update();
     }
 }

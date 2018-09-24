@@ -10,37 +10,36 @@ namespace Minesweeper.Model
 {
     public class Table
     {
-        public TableInfo TableInfo { get; }
-        public Dictionary<Button, ITableCell> CellButton { get; set; }
-        public Dictionary<Point, ITableCell> Cells { get; set; }
+        private Dictionary<Tuple<Button, Point>, ITableCell> _cells;
 
         public ITableCell this[Button button]
         {
             get
             {
-                return CellButton[button];
-            }
-        }
+                ITableCell toReturn = null;
 
-        public Table(TableInfo info = null)
-        {
-            if (info == null)
-            {
-                info = new TableInfo();
-            }
-
-            this.TableInfo = info;
-        }
-
-        public void Initialize()
-        {
-            if (TableInfo == null) throw new Exception("TableInfo is not set.");
-
-            for (int rows = 0; rows < TableInfo.Rows; rows++)
-                for (int columns = 0; columns < TableInfo.Columns; columns++)
+                foreach (var cell in _cells)
                 {
-
+                    if (cell.Key.Item1 == button) toReturn = cell.Value;
                 }
+
+                return toReturn ?? throw new KeyNotFoundException($"No cell exists for the given {button} parameter.");
+            }
+            set
+            {
+                this[button] = value;
+            }
+        }
+
+        public ITableCell this[Point p]
+        {
+            get { return _cells[p]; }
+            set { _cells[p] = value; }
+        }
+
+        public Table()
+        {
+            this._cells = new Dictionary<Tuple<Button, Point>, ITableCell>();
         }
     }
 }

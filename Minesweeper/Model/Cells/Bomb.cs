@@ -15,5 +15,10 @@ namespace Minesweeper.Model.Cells
         {
             throw new NotImplementedException();
         }
+
+        public void Update()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

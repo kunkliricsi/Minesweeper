@@ -71,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Cells\Bomb.cs" />
-    <Compile Include="Model\Cells\Empty.cs" />
     <Compile Include="Model\Cells\Number.cs" />
     <Compile Include="Model\ITableCell.cs" />
     <Compile Include="Model\Table.cs" />
