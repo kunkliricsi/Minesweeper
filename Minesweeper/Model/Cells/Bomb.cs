@@ -10,6 +10,7 @@ namespace Minesweeper.Model.Cells
     public class Bomb : ITableCell
     {
         public bool IsFlagged { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<ITableCell> Neighbors { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void Reveal()
         {

@@ -31,7 +31,11 @@ namespace Minesweeper.Controller
 
             GenerateBombs();
 
-            BuildCellsFromType();
+            for (int row = 0; row < _tableInfo.Rows; row++)
+                for (int column = 0; column < _tableInfo.Columns; column++)
+                {
+                    table
+                }
 
             return table;
         }
@@ -56,10 +60,6 @@ namespace Minesweeper.Controller
 
         private void BuildCellsFromType()
         {
-            foreach (var typeOfCell in _cells)
-            {
-                var newCell = Activator.CreateInstance(typeOfCell);
-            }
         }
     }
 }
