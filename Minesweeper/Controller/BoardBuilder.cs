@@ -8,49 +8,48 @@ using Minesweeper.Model.Cells;
 
 namespace Minesweeper.Controller
 {
-    public class TableBuilder
+    public class BoardBuilder
     {
         private Type[,] _cells;
-        private TableInfo _tableInfo;
+        private BoardInfo _boardInfo;
 
-        public void SetTableInfo(TableInfo info)
+        public void SetBoardInfo(BoardInfo info)
         {
-            _tableInfo = info;
+            _boardInfo = info;
             _cells = new Type[info.Rows, info.Columns];
         }
 
-        public Table BuildTable()
+        public Board BuildBoard()
         {
-            var table = new Table();
+            var board = new Board();
 
-            for (int row = 0; row < _tableInfo.Rows; row++)
-                for (int column = 0; column < _tableInfo.Columns; column++)
+            for (int row = 0; row < _boardInfo.Rows; row++)
+                for (int column = 0; column < _boardInfo.Columns; column++)
                 {
                     _cells[row, column] = typeof(Number);
                 }
 
             GenerateBombs();
 
-            for (int row = 0; row < _tableInfo.Rows; row++)
-                for (int column = 0; column < _tableInfo.Columns; column++)
+            for (int row = 0; row < _boardInfo.Rows; row++)
+                for (int column = 0; column < _boardInfo.Columns; column++)
                 {
-                    table
                 }
 
-            return table;
+            return board;
         }
 
         private void GenerateBombs()
         {
             var random = new Random();
 
-            for (int i = 0; i < _tableInfo.Bombs; i++)
+            for (int i = 0; i < _boardInfo.Bombs; i++)
             {
                 int row, column;
                 do
                 {
-                    row = random.Next(_tableInfo.Rows);
-                    column = random.Next(_tableInfo.Columns);
+                    row = random.Next(_boardInfo.Rows);
+                    column = random.Next(_boardInfo.Columns);
 
                 } while (_cells[row, column] == typeof(Bomb));
 

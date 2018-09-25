@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Minesweeper.Model;
+using Minesweeper.Controller;
 
 namespace Minesweeper
 {
@@ -21,11 +21,12 @@ namespace Minesweeper
     /// </summary>
     public partial class MainWindow : Window
     {
-        private TableInfo TableInfo { get; set; }
-
+        private BoardController boardController;
         public MainWindow()
         {
             InitializeComponent();
+
+            boardController = new BoardController();
         }
     }
 }

@@ -7,10 +7,12 @@ using System.Windows.Controls;
 
 namespace Minesweeper.Model
 {
-    public interface ITableCell
+    public interface IBoardCell
     {
+        string Value { get; }
         bool IsFlagged { get; set; }
-        List<ITableCell> Neighbors { get; set; }
+        List<IBoardCell> Neighbors { get; set; }
+        Button Button { get; set; }
 
         void Reveal();
         void Update();
