@@ -12,6 +12,7 @@ namespace Minesweeper.Model.Cells
         public bool IsFlagged { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public List<IBoardCell> Neighbors { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public Button Button { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool IsClicked { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         private int _value;
         public string Value
@@ -21,6 +22,7 @@ namespace Minesweeper.Model.Cells
                 return this._value.ToString();
             }
         }
+
 
         public void Reveal()
         {

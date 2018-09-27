@@ -10,6 +10,7 @@ namespace Minesweeper.Model
     public interface IBoardCell
     {
         string Value { get; }
+        bool IsClicked { get; set; }
         bool IsFlagged { get; set; }
         List<IBoardCell> Neighbors { get; set; }
         Button Button { get; set; }

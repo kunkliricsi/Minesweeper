@@ -7,14 +7,34 @@ using Minesweeper.Model;
 using Minesweeper.Model.Cells;
 using System.Windows.Controls;
 using System.Windows;
+using System.ComponentModel;
+using GalaSoft.MvvmLight;
+using System.Windows.Input;
+using GalaSoft.MvvmLight.Command;
 
 namespace Minesweeper.Controller
 {
-    public class BoardController
+    public class BoardController : ViewModelBase
     {
         private Board Board { get; set; }
         private BoardInfo BoardInfo { get; set; }
+        private ICommand _clickCommand;
 
+        public ICommand ClickCommand
+        {
+            get
+            {
+                if (_clickCommand == null)
+                {
+                    _clickCommand = new RelayCommand(() =>
+                    {
+                        this.ButtonClicked();
+                    });
+                }
+
+                return _clickCommand;
+            }
+        }
         public void CreateBoard(int rows = 5, int columns = 5, int bombs = 5)
         {
             this.BoardInfo = new BoardInfo(rows, columns, bombs);
@@ -23,6 +43,11 @@ namespace Minesweeper.Controller
             builder.SetBoardInfo(this.BoardInfo);
 
             this.Board = builder.BuildBoard();
+        }
+
+        private void ButtonClicked(Button button)
+        {
+            Board[button].Reveal();
         }
 
         public int Rows
@@ -40,9 +65,9 @@ namespace Minesweeper.Controller
             get { return this.Board.Cells.Select(c => c.Value).ToList(); }
         }
 
-        public void ButtonClicked(Button button)
+        public IEnumerable<bool> IsEnabled
         {
-            Board[button].Reveal();
+            get { return this.Board.Cells.Select(c => c.IsClicked).ToList(); }
         }
     }
 }
