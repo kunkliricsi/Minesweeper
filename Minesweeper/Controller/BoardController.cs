@@ -26,10 +26,7 @@ namespace Minesweeper.Controller
             {
                 if (_clickCommand == null)
                 {
-                    _clickCommand = new RelayCommand(() =>
-                    {
-                        this.ButtonClicked();
-                    });
+                    _clickCommand = new RelayCommand<Button>(this.ButtonClicked);
                 }
 
                 return _clickCommand;

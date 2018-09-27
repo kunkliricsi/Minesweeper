@@ -41,9 +41,11 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding Values}"
+                    <Button x:Name="ClickedButton"
+                            Content="{Binding Values}"
                             IsEnabled="{Binding IsEnabled}"
-                            Command="{Binding}"/>
+                            Command="{Binding ClickCommand}"
+                            CommandParameter="{Binding ElementName=ClickedButton}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
