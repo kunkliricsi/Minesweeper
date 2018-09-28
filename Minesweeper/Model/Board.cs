@@ -11,7 +11,7 @@ namespace Minesweeper.Model
 {
     public class Board : IEnumerable<KeyValuePair<(int, int),Cell>>
     {
-        private Dictionary<(int, int), Cell> _cells;
+        private Dictionary<(int row, int column), Cell> _cells;
 
         public IEnumerable<Cell> Cells
         {
@@ -25,12 +25,9 @@ namespace Minesweeper.Model
         {
             get
             {
-                foreach (var cell in _cells)
-                {
-                    if (cell.Key.Item1 == row && cell.Key.Item2 == column) return cell.Value;
-                }
-
-                throw new KeyNotFoundException($"No cell exists for the given row: {row}, column: {column} parameters");
+                return _cells.Where(c => (c.Key.row.Equals(row) && c.Key.column.Equals(column)))
+                    .Select(c => c.Value)
+                    .SingleOrDefault() ?? throw new KeyNotFoundException($"No cell exists for the given row: {row}, column: {column} parameters");
             }
             set
             {

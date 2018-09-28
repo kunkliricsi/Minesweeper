@@ -16,7 +16,7 @@
             </MenuItem>
         </Menu>
 
-        <ItemsControl ItemsSource="{Binding Source={StaticResource BoardController}}">
+        <ItemsControl ItemsSource="{Binding Source={StaticResource vmMainWindow}}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid Margin="20">
@@ -34,17 +34,17 @@
 
             <ItemsControl.ItemContainerStyle>
                 <Style>
-                    <Setter Property="Grid.Column" Value="{Binding Instance.Columns}"/>
-                    <Setter Property="Grid.Row" Value="{Binding Instance.Rows}"/>
+                    <Setter Property="Grid.Column" Value="{Binding Columns, Mode=OneWay}"/>
+                    <Setter Property="Grid.Row" Value="{Binding Rows, Mode=OneWay}"/>
                 </Style>
             </ItemsControl.ItemContainerStyle>
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button x:Name="ClickedButton"
-                            Content="{Binding Instance.Values}"
-                            IsEnabled="{Binding Instance.IsEnabled}"
-                            Command="{Binding Instance.ClickCommand}"
+                    <Button Name="{Binding Coordinates, Converter=}"
+                            Content="{Binding Values}"
+                            IsEnabled="{Binding IsEnabled}"
+                            Command="{Binding CellClick}"
                             CommandParameter="{Binding }"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

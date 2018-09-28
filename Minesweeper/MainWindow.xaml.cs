@@ -28,10 +28,12 @@ namespace Minesweeper
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            SizeProviderDialog dlg = new SizeProviderDialog();
+            SizeProviderDialog dlg = new SizeProviderDialog
+            {
+                Owner = this,
+                Margin = this.Margin
+            };
 
-            dlg.Owner = this;
-            dlg.Margin = this.Margin;
             dlg.ShowDialog();
         }
     }
