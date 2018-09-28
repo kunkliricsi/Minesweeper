@@ -9,22 +9,15 @@ namespace Minesweeper.Controller
 {
     public class BoardBuilder
     {
-        private BoardInfo _boardInfo;
-
-        public void SetBoardInfo(BoardInfo info)
-        {
-            _boardInfo = info;
-        }
-
-        public Board BuildBoard()
+        public Board BuildBoard(BoardInfo info)
         {
             var _board = new Board();
 
-            _board.InitializeBoard(_boardInfo);
+            _board.InitializeBoard(info);
 
-            _board.GenerateBombs(_boardInfo);
+            _board.GenerateBombs(info);
 
-            _board.SetNeighbors(_boardInfo);
+            _board.SetNeighbors(info);
 
             return _board;
         }
@@ -37,7 +30,7 @@ namespace Minesweeper.Controller
             for (int row = 0; row < info.Rows; row++)
                 for (int column = 0; column < info.Columns; column++)
                 {
-                    board.AddCell((row, column), new BoardCell());
+                    board.AddCell((row, column), new Cell());
                 }
         }
 
@@ -76,16 +69,18 @@ namespace Minesweeper.Controller
             }
         }
 
-        private static List<BoardCell> GetNeighborsFor(this Board board, (int row, int column) tuple, Predicate<(int, int)> IsInBoard)
+        private static List<Cell> GetNeighborsFor(this Board board, (int row, int column) tuple, Predicate<(int, int)> IsInBoard)
         {
-            var neighbors = new List<BoardCell>();
+            var neighbors = new List<Cell>();
 
-            for (int x = tuple.row - 1; x <= tuple.row + 1; x++)
-                for (int y = tuple.column - 1; y <= tuple.column + 1; y++)
+            for (int row = tuple.row - 1; row <= tuple.row + 1; row++)
+                for (int column = tuple.column - 1; column <= tuple.column + 1; column++)
                 {
-                    if (IsInBoard((x, y)))
+                    if (row == tuple.row && column == tuple.column) continue;
+
+                    if (IsInBoard((row, column)))
                     {
-                        neighbors.Add(board[x, y]);
+                        neighbors.Add(board[row, column]);
                     }
                 }
 

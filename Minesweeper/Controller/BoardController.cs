@@ -15,8 +15,17 @@ namespace Minesweeper.Controller
 {
     public class BoardController : ViewModelBase
     {
+        private static readonly Lazy<BoardController> instance = new Lazy<BoardController>(() => new BoardController());
         private Board Board { get; set; }
         private BoardInfo Info { get; set; }
+
+        private BoardController() { }
+        public static BoardController Instance
+        {
+            get { return instance.Value; }
+        }
+
+        #region Commands
 
         private ICommand _clickCommand;
         public ICommand ClickCommand
@@ -31,30 +40,59 @@ namespace Minesweeper.Controller
                 return _clickCommand;
             }
         }
-        public void CreateBoard(int rows = 5, int columns = 5, int bombs = 5)
+
+        private ICommand _createCommand;
+        public ICommand CreateCommand
         {
-            this.Info = new BoardInfo(rows, columns, bombs);
-            this.PropertyChangedHandler?.Invoke(this, new PropertyChangedEventArgs("Info"));
+            get
+            {
+                if (_createCommand == null)
+                {
+                    _clickCommand = new RelayCommand<(int, int, int)>(this.CreateBoard);
+                }
+
+                return _createCommand;
+            }
+        }
+        private void CreateBoard((int rows, int columns, int bombs)triple)
+        {
+            this.Info = new BoardInfo(triple.rows, triple.columns, triple.bombs);
+            this.Rows = triple.rows;
+            this.Columns = triple.columns;
 
             var builder = new BoardBuilder();
-            builder.SetBoardInfo(this.Info);
+            this.Board = builder.BuildBoard(this.Info);
 
-            this.Board = builder.BuildBoard();
+            this.PropertyChangedHandler?.Invoke(this, new PropertyChangedEventArgs("Rows"));
+            this.PropertyChangedHandler?.Invoke(this, new PropertyChangedEventArgs("Columns"));
+            this.PropertyChangedHandler?.Invoke(this, new PropertyChangedEventArgs("Values"));
+            this.RaisePropertyChanged();
         }
 
         private void ButtonClicked((int row, int column) tuple)
         {
+            Board[tuple.row, tuple.column].IsClicked = true;
             Board[tuple.row, tuple.column].Reveal();
+
+            this.PropertyChangedHandler?.Invoke(this, new PropertyChangedEventArgs("IsEnabled"));
         }
 
+        #endregion
+
+        #region Properties
+
+        private int _rows;
         public int Rows
         {
             get { return this.Info.Rows; }
+            set { Set(ref _rows, value); }
         }
 
+        private int _columns;
         public int Columns
         {
             get { return this.Info.Columns; }
+            set { Set(ref _columns, value); }
         }
 
         public IEnumerable<string> Values
@@ -64,7 +102,9 @@ namespace Minesweeper.Controller
 
         public IEnumerable<bool> IsEnabled
         {
-            get { return this.Board.Cells.Select(c => c.IsClicked).ToList(); }
+            get { return this.Board.Cells.Select(c => !c.IsClicked).ToList(); }
         }
+
+        #endregion
     }
 }

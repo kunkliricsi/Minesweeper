@@ -9,11 +9,11 @@ using System.Windows.Controls;
 
 namespace Minesweeper.Model
 {
-    public class Board : IEnumerable<KeyValuePair<(int, int),BoardCell>>
+    public class Board : IEnumerable<KeyValuePair<(int, int),Cell>>
     {
-        private Dictionary<(int, int), BoardCell> _cells;
+        private Dictionary<(int, int), Cell> _cells;
 
-        public IEnumerable<BoardCell> Cells
+        public IEnumerable<Cell> Cells
         {
             get
             {
@@ -21,7 +21,7 @@ namespace Minesweeper.Model
             }
         }
 
-        public BoardCell this[int row, int column]
+        public Cell this[int row, int column]
         {
             get
             {
@@ -40,15 +40,15 @@ namespace Minesweeper.Model
 
         public Board()
         {
-            this._cells = new Dictionary<(int, int), BoardCell>();
+            this._cells = new Dictionary<(int, int), Cell>();
         }
 
-        public void AddCell((int row, int column) tuple, BoardCell cell)
+        public void AddCell((int row, int column) tuple, Cell cell)
         {
             _cells.Add(tuple, cell);
         }
 
-        public IEnumerator<KeyValuePair<(int, int), BoardCell>> GetEnumerator()
+        public IEnumerator<KeyValuePair<(int, int), Cell>> GetEnumerator()
         {
             return _cells.GetEnumerator();
         }

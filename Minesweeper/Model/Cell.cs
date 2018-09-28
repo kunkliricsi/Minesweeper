@@ -7,9 +7,9 @@ using System.Windows.Controls;
 
 namespace Minesweeper.Model
 {
-    public class BoardCell
+    public class Cell
     {
-        private List<BoardCell> _neighbors;
+        private List<Cell> _neighbors;
 
         public string Value { get; private set; }
         public bool IsClicked { get; set; }
@@ -28,7 +28,7 @@ namespace Minesweeper.Model
             });
         }
 
-        public void Update(List<BoardCell> neighbors)
+        public void Update(List<Cell> neighbors)
         {
             this._neighbors = neighbors;
 

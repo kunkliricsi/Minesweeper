@@ -9,7 +9,7 @@
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New"/>
+                <MenuItem Header="_New" Click="MenuItem_Click"/>
                 <Separator/>
                 <MenuItem Header="_Save"/>
                 <MenuItem Header="_Exit"/>
@@ -34,17 +34,17 @@
 
             <ItemsControl.ItemContainerStyle>
                 <Style>
-                    <Setter Property="Grid.Column" Value="{Binding Columns}"/>
-                    <Setter Property="Grid.Row" Value="{Binding Rows}"/>
+                    <Setter Property="Grid.Column" Value="{Binding Instance.Columns}"/>
+                    <Setter Property="Grid.Row" Value="{Binding Instance.Rows}"/>
                 </Style>
             </ItemsControl.ItemContainerStyle>
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button x:Name="ClickedButton"
-                            Content="{Binding Values}"
-                            IsEnabled="{Binding IsEnabled}"
-                            Command="{Binding ClickCommand}"
+                            Content="{Binding Instance.Values}"
+                            IsEnabled="{Binding Instance.IsEnabled}"
+                            Command="{Binding Instance.ClickCommand}"
                             CommandParameter="{Binding }"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

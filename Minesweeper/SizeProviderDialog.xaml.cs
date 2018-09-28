@@ -10,29 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Minesweeper.Controller;
 
 namespace Minesweeper
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for SizeProviderDialog.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class SizeProviderDialog : Window
     {
-        public MainWindow()
+        public SizeProviderDialog()
         {
             InitializeComponent();
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            SizeProviderDialog dlg = new SizeProviderDialog();
-
-            dlg.Owner = this;
-            dlg.Margin = this.Margin;
-            dlg.ShowDialog();
         }
     }
 }
