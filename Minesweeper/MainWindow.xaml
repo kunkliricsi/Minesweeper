@@ -45,7 +45,7 @@
                             Content="{Binding Values}"
                             IsEnabled="{Binding IsEnabled}"
                             Command="{Binding ClickCommand}"
-                            CommandParameter="{Binding ElementName=ClickedButton}"/>
+                            CommandParameter="{Binding }"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

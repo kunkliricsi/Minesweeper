@@ -4,61 +4,92 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Minesweeper.Model;
-using Minesweeper.Model.Cells;
 
 namespace Minesweeper.Controller
 {
     public class BoardBuilder
     {
-        private Type[,] _cells;
         private BoardInfo _boardInfo;
 
         public void SetBoardInfo(BoardInfo info)
         {
             _boardInfo = info;
-            _cells = new Type[info.Rows, info.Columns];
         }
 
         public Board BuildBoard()
         {
-            var board = new Board();
+            var _board = new Board();
 
-            for (int row = 0; row < _boardInfo.Rows; row++)
-                for (int column = 0; column < _boardInfo.Columns; column++)
+            _board.InitializeBoard(_boardInfo);
+
+            _board.GenerateBombs(_boardInfo);
+
+            _board.SetNeighbors(_boardInfo);
+
+            return _board;
+        }
+    }
+
+    internal static class BoardExtensions
+    {
+        public static void InitializeBoard(this Board board, BoardInfo info)
+        {
+            for (int row = 0; row < info.Rows; row++)
+                for (int column = 0; column < info.Columns; column++)
                 {
-                    _cells[row, column] = typeof(Number);
+                    board.AddCell((row, column), new BoardCell());
                 }
-
-            GenerateBombs();
-
-            for (int row = 0; row < _boardInfo.Rows; row++)
-                for (int column = 0; column < _boardInfo.Columns; column++)
-                {
-                }
-
-            return board;
         }
 
-        private void GenerateBombs()
+        public static void GenerateBombs(this Board board, BoardInfo info)
         {
             var random = new Random();
 
-            for (int i = 0; i < _boardInfo.Bombs; i++)
+            for (int i = 0; i < info.Bombs; i++)
             {
                 int row, column;
                 do
                 {
-                    row = random.Next(_boardInfo.Rows);
-                    column = random.Next(_boardInfo.Columns);
+                    row = random.Next(info.Rows);
+                    column = random.Next(info.Columns);
 
-                } while (_cells[row, column] == typeof(Bomb));
+                } while (board[row, column].IsBomb);
 
-                _cells[row, column] = typeof(Bomb);
+                board[row, column].IsBomb = true;
             }
         }
 
-        private void BuildCellsFromType()
+        public static void SetNeighbors(this Board board, BoardInfo info)
         {
+            foreach (var cell in board)
+            {
+                cell.Value.Update(board.GetNeighborsFor(cell.Key, ((int row, int column) tuple) =>
+                {
+                    if (tuple.row < 0 || tuple.column < 0)
+                        return false;
+
+                    if (tuple.row >= info.Rows || tuple.column >= info.Columns)
+                        return false;
+
+                    return true;
+                }));
+            }
+        }
+
+        private static List<BoardCell> GetNeighborsFor(this Board board, (int row, int column) tuple, Predicate<(int, int)> IsInBoard)
+        {
+            var neighbors = new List<BoardCell>();
+
+            for (int x = tuple.row - 1; x <= tuple.row + 1; x++)
+                for (int y = tuple.column - 1; y <= tuple.column + 1; y++)
+                {
+                    if (IsInBoard((x, y)))
+                    {
+                        neighbors.Add(board[x, y]);
+                    }
+                }
+
+            return neighbors;
         }
     }
 }

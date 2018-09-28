@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Minesweeper.Model;
-using Minesweeper.Model.Cells;
 using System.Windows.Controls;
 using System.Windows;
 using System.ComponentModel;
@@ -17,16 +16,16 @@ namespace Minesweeper.Controller
     public class BoardController : ViewModelBase
     {
         private Board Board { get; set; }
-        private BoardInfo BoardInfo { get; set; }
-        private ICommand _clickCommand;
+        private BoardInfo Info { get; set; }
 
+        private ICommand _clickCommand;
         public ICommand ClickCommand
         {
             get
             {
                 if (_clickCommand == null)
                 {
-                    _clickCommand = new RelayCommand<Button>(this.ButtonClicked);
+                    _clickCommand = new RelayCommand<(int, int)>(this.ButtonClicked);
                 }
 
                 return _clickCommand;
@@ -34,27 +33,28 @@ namespace Minesweeper.Controller
         }
         public void CreateBoard(int rows = 5, int columns = 5, int bombs = 5)
         {
-            this.BoardInfo = new BoardInfo(rows, columns, bombs);
+            this.Info = new BoardInfo(rows, columns, bombs);
+            this.PropertyChangedHandler?.Invoke(this, new PropertyChangedEventArgs("Info"));
 
             var builder = new BoardBuilder();
-            builder.SetBoardInfo(this.BoardInfo);
+            builder.SetBoardInfo(this.Info);
 
             this.Board = builder.BuildBoard();
         }
 
-        private void ButtonClicked(Button button)
+        private void ButtonClicked((int row, int column) tuple)
         {
-            Board[button].Reveal();
+            Board[tuple.row, tuple.column].Reveal();
         }
 
         public int Rows
         {
-            get { return this.BoardInfo.Rows; }
+            get { return this.Info.Rows; }
         }
 
         public int Columns
         {
-            get { return this.BoardInfo.Columns; }
+            get { return this.Info.Columns; }
         }
 
         public IEnumerable<string> Values

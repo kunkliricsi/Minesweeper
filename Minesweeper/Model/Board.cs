@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,11 @@ using System.Windows.Controls;
 
 namespace Minesweeper.Model
 {
-    public class Board
+    public class Board : IEnumerable<KeyValuePair<(int, int),BoardCell>>
     {
-        private Dictionary<(int, int), IBoardCell> _cells;
+        private Dictionary<(int, int), BoardCell> _cells;
 
-        public IEnumerable<IBoardCell> Cells
+        public IEnumerable<BoardCell> Cells
         {
             get
             {
@@ -20,24 +21,7 @@ namespace Minesweeper.Model
             }
         }
 
-        public IBoardCell this[Button button]
-        {
-            get
-            {
-                foreach (var cell in _cells)
-                {
-                    if (cell.Value.Button == button) return cell.Value;
-                }
-
-                throw new KeyNotFoundException($"No cell exists for the given {button} parameter.");
-            }
-            set
-            {
-                this[button] = value;
-            }
-        }
-
-        public IBoardCell this[int row, int column]
+        public BoardCell this[int row, int column]
         {
             get
             {
@@ -56,7 +40,22 @@ namespace Minesweeper.Model
 
         public Board()
         {
-            this._cells = new Dictionary<(int, int), IBoardCell>();
+            this._cells = new Dictionary<(int, int), BoardCell>();
+        }
+
+        public void AddCell((int row, int column) tuple, BoardCell cell)
+        {
+            _cells.Add(tuple, cell);
+        }
+
+        public IEnumerator<KeyValuePair<(int, int), BoardCell>> GetEnumerator()
+        {
+            return _cells.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }
