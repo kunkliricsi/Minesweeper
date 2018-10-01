@@ -19,7 +19,8 @@
                  HorizontalAlignment="Left" Height="22" Margin="87,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"
                  Text="{Binding Columns, Mode=OneWayToSource}"/>
         <TextBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                 HorizontalAlignment="Left" Height="24" Margin="87,68,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="76"/>
+                 HorizontalAlignment="Left" Height="24" Margin="87,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"
+                 Text="{Binding Bombs, Mode=OneWayToSource}"/>
 
         <Label Content="Rows" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"
                HorizontalAlignment="Left" Margin="17,4,0,0" VerticalAlignment="Top" Width="66"/>
@@ -27,8 +28,17 @@
         <Label Content="Bombs" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="17,66,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66"/>
 
         <Button Content="New Game" HorizontalAlignment="Right" Margin="0,104,10,0" VerticalAlignment="Top" Height="20" Width="75"
-                Command="{Binding CreateBoard}"/>
-        <Button Content="Cancel" HorizontalAlignment="Right" Margin="0,104,107,0" Width="75" Height="20" VerticalAlignment="Top" Click="Button_Click"/>
+                Command="{Binding CreateBoard}">
+            <Button.CommandParameter>
+                <MultiBinding Converter="{Binding }">
+                    <Binding Path="Rows"/>
+                    <Binding Path="Columns"/>
+                    <Binding Path="Bombs"/>
+                </MultiBinding>
+            </Button.CommandParameter>
+        </Button>
+        <Button Content="Cancel" HorizontalAlignment="Right" Margin="0,104,107,0" Width="75" Height="20" VerticalAlignment="Top" 
+                Click="Button_Click"/>
 
     </Grid>
 

@@ -41,7 +41,7 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Name="{Binding Coordinates, Converter=}"
+                    <Button x:Name="btn"
                             Content="{Binding Values}"
                             IsEnabled="{Binding IsEnabled}"
                             Command="{Binding CellClick}"

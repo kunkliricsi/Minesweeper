@@ -24,39 +24,15 @@ namespace Minesweeper.Controller
             get { return instance.Value; }
         }
 
-        #region Commands
-
-        private ICommand _clickCommand;
-        public ICommand ClickCommand
+        public void CreateBoard(int rows, int columns, int bombs)
         {
-            get
-            {
-                if (_clickCommand == null)
-                {
-                    _clickCommand = new RelayCommand<(int, int)>(this.ButtonClicked);
-                }
+            var info = new BoardInfo(rows, columns, bombs);
 
-                return _clickCommand;
-            }
+            this.CreateBoard(info);
         }
 
-        private ICommand _createCommand;
-        public ICommand CreateCommand
+        public void CreateBoard(BoardInfo info)
         {
-            get
-            {
-                if (_createCommand == null)
-                {
-                    _createCommand = new RelayCommand<(int, int, int)>(this.CreateBoard);
-                }
-
-                return _createCommand;
-            }
-        }
-        public void CreateBoard((int rows, int columns, int bombs)triple)
-        {
-            var info = new BoardInfo(triple.rows, triple.columns, triple.bombs);
-
             var builder = new BoardBuilder();
             this.Board = builder.BuildBoard(info);
         }
@@ -66,7 +42,5 @@ namespace Minesweeper.Controller
             Board[tuple.row, tuple.column].IsClicked = true;
             Board[tuple.row, tuple.column].Reveal();
         }
-
-        #endregion
     }
 }

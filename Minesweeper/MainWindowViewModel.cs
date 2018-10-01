@@ -52,6 +52,13 @@ namespace Minesweeper
             set { Set(ref columns, value); }
         }
 
+        private int bombs;
+        public int Bombs
+        {
+            get { return bombs; }
+            set { Set(ref bombs, value); }
+        }
+
         private IEnumerable<string> values;
         public IEnumerable<string> Values
         {
@@ -98,7 +105,7 @@ namespace Minesweeper
             {
                 if (createBoard == null)
                 {
-                    createBoard = new RelayCommand<(int, int, int)>(BoardController.Instance.CreateBoard);
+                    createBoard = new RelayCommand<BoardInfo>((info) => BoardController.Instance.CreateBoard(info));
                 }
 
                 return createBoard;
