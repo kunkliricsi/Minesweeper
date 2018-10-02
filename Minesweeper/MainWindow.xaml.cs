@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Minesweeper.Controller;
+using Minesweeper.Model;
 
 namespace Minesweeper
 {
@@ -34,7 +35,32 @@ namespace Minesweeper
                 Margin = this.Margin
             };
 
-            dlg.ShowDialog();
+            if (dlg.ShowDialog() ?? false)
+            {
+                CreateGridWithButtons();
+            }
+        }
+
+        private void CreateGridWithButtons()
+        {
+            for (int row = 0; row < BoardInfo.Instance.Rows; row++)
+            {
+                Grid.RowDefinitions.Add(new RowDefinition());
+
+                for (int column = 0; column < BoardInfo.Instance.Columns; column++)
+                {
+                    Grid.ColumnDefinitions.Add(new ColumnDefinition());
+
+                    var button = new Button()
+                    {
+                        Name = "b" + row.ToString() + "_" + column.ToString()
+                    };
+
+                    Grid.SetRow(button, row);
+                    Grid.SetColumn(button, column);
+                    Grid.Children.Add(button);
+                }
+            }
         }
     }
 }

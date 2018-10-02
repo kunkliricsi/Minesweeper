@@ -8,11 +8,19 @@ namespace Minesweeper.Model
 {
     public class BoardInfo
     {
+        private static readonly Lazy<BoardInfo> instance = new Lazy<BoardInfo>(() => new BoardInfo());
+        public static BoardInfo Instance
+        {
+            get { return instance.Value; }
+        }
+
         public int Rows { get; private set; }
         public int Columns { get; private set; }
-        public int Bombs { get; set; }
+        public int Bombs { get; private set; }
 
-        public BoardInfo(int rows, int columns, int bombs)
+        private BoardInfo() { }
+
+        public void SetInfo(int rows, int columns, int bombs)
         {
             if (rows < 1 || columns < 1) throw new ArgumentException($"Board must have at least 1 row and 1 column. Current values = {{ rows: {rows}, columns: {columns} }}");
             if (bombs > rows * columns) throw new ArgumentException("Too many bombs");

@@ -8,37 +8,25 @@
     Width="200"
     ResizeMode="NoResize"
     ShowInTaskbar="False"
-    WindowStartupLocation="CenterOwner"
-    DataContext="{Binding Source={StaticResource vmMainWindow}}">
+    WindowStartupLocation="CenterOwner">
 
-    <Grid >
-        <TextBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                 HorizontalAlignment="Left" Height="24" Margin="87,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"
-                 Text="{Binding Rows, Mode=OneWayToSource}"/>
-        <TextBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                 HorizontalAlignment="Left" Height="22" Margin="87,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"
-                 Text="{Binding Columns, Mode=OneWayToSource}"/>
-        <TextBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                 HorizontalAlignment="Left" Height="24" Margin="87,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"
-                 Text="{Binding Bombs, Mode=OneWayToSource}"/>
+    <Grid>
+        <TextBox x:Name="Rows" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                 HorizontalAlignment="Left" Height="24" Margin="87,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"/>
+        <TextBox x:Name="Columns" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                 HorizontalAlignment="Left" Height="22" Margin="87,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"/>
+        <TextBox x:Name="Bombs" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                 HorizontalAlignment="Left" Height="24" Margin="87,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"/>
 
         <Label Content="Rows" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"
                HorizontalAlignment="Left" Margin="17,4,0,0" VerticalAlignment="Top" Width="66"/>
         <Label Content="Columns" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="17,34,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66"/>
         <Label Content="Bombs" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="17,66,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66"/>
 
-        <Button Content="New Game" HorizontalAlignment="Right" Margin="0,104,10,0" VerticalAlignment="Top" Height="20" Width="75"
-                Command="{Binding CreateBoard}">
-            <Button.CommandParameter>
-                <MultiBinding Converter="{Binding }">
-                    <Binding Path="Rows"/>
-                    <Binding Path="Columns"/>
-                    <Binding Path="Bombs"/>
-                </MultiBinding>
-            </Button.CommandParameter>
-        </Button>
+        <Button Content="New Game" HorizontalAlignment="Right" Margin="0,104,10,0" VerticalAlignment="Top" Height="20" Width="75" 
+                Click="Button_Click_1" IsDefault="True"/>
         <Button Content="Cancel" HorizontalAlignment="Right" Margin="0,104,107,0" Width="75" Height="20" VerticalAlignment="Top" 
-                Click="Button_Click"/>
+                Click="Button_Click" IsCancel="True"/>
 
     </Grid>
 

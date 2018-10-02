@@ -16,7 +16,7 @@ namespace Minesweeper.Controller
     public class BoardController
     {
         private static readonly Lazy<BoardController> instance = new Lazy<BoardController>(() => new BoardController());
-        private Board Board { get; set; }
+        private Board _board;
 
         private BoardController() { }
         public static BoardController Instance
@@ -24,23 +24,36 @@ namespace Minesweeper.Controller
             get { return instance.Value; }
         }
 
+        public void CreateBoard(Board board)
+        {
+            this._board = board;
+        }
+
         public void CreateBoard(int rows, int columns, int bombs)
         {
-            var info = new BoardInfo(rows, columns, bombs);
+            BoardInfo.Instance.SetInfo(rows, columns, bombs);
 
-            this.CreateBoard(info);
+            this.CreateBoard(BoardInfo.Instance);
         }
 
         public void CreateBoard(BoardInfo info)
         {
             var builder = new BoardBuilder();
-            this.Board = builder.BuildBoard(info);
+
+            this._board = builder.BuildBoard(info);
+        }
+
+        public void ButtonClicked(int row, int column)
+        {
+            var tuple = (row, column);
+
+            this.ButtonClicked(tuple);
         }
 
         public void ButtonClicked((int row, int column) tuple)
         {
-            Board[tuple.row, tuple.column].IsClicked = true;
-            Board[tuple.row, tuple.column].Reveal();
+            _board[tuple.row, tuple.column].IsClicked = true;
+            _board[tuple.row, tuple.column].Reveal();
         }
     }
 }

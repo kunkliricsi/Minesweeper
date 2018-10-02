@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Minesweeper.Controller;
+using Minesweeper.Model;
 
 namespace Minesweeper
 {
@@ -26,6 +28,20 @@ namespace Minesweeper
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            this.DialogResult = false;
+            this.Close();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            BoardInfo.Instance.SetInfo(int.Parse(this.Rows.Text), int.Parse(this.Columns.Text), int.Parse(this.Bombs.Text));
+
+            var builder = new BoardBuilder();
+            var board = builder.BuildBoard(BoardInfo.Instance);
+
+            BoardController.Instance.CreateBoard(board);
+
+            this.DialogResult = true;
             this.Close();
         }
     }
