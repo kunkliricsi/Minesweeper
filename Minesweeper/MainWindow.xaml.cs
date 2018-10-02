@@ -51,16 +51,21 @@ namespace Minesweeper
                 {
                     Grid.ColumnDefinitions.Add(new ColumnDefinition());
 
-                    var button = new Button()
-                    {
-                        Name = "b" + row.ToString() + "_" + column.ToString()
-                    };
-
-                    Grid.SetRow(button, row);
-                    Grid.SetColumn(button, column);
-                    Grid.Children.Add(button);
+                    AddButton(row, column);
                 }
             }
+        }
+
+        private void AddButton(int row, int column)
+        {
+            var button = new Button()
+            {
+                Name = "b" + row.ToString() + "_" + column.ToString()
+            };
+
+            Grid.SetRow(button, row);
+            Grid.SetColumn(button, column);
+            Grid.Children.Add(button);
         }
     }
 }
